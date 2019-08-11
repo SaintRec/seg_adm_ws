@@ -11,6 +11,9 @@ create table seg_banner(
  SPRIDEN_PIDM int
 );
 
-select * from seg_banner
 
-insert into seg_banner values(1,'1234567890','kevin','holguin','kjh@gmail.com','cedula','1233','kjh@yavirac.edu.ec','1',1);
+insert into seg_banner values(1,'1716893315','kevin','holguin','kjh@gmail.com','cedula','1233','kjh@yavirac.edu.ec','L00123457',4892);
+insert into seg_banner values(2,'1716893317','David','Reyes','kjh@gmail.com','cedula','1233','kjh@yavirac.edu.ec','L00123458',4892);
+insert into seg_banner values(3,'1716893318','Karen','Tipan','kjh@gmail.com','cedula','1233','kjh@yavirac.edu.ec','L00123459',4892);
+insert into seg_banner values(4,'1716893319','Willian','Conya','kjh@gmail.com','cedula','1233','kjh@yavirac.edu.ec','L00123450',4892);
+
