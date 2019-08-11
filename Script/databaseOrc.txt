@@ -1,0 +1,325 @@
+
+CREATE SEQUENCE SEQ_SEG_USUARIO;
+CREATE SEQUENCE SEQ_SEG_USU_PERFIL;
+CREATE SEQUENCE SEQ_SEG_SISTEMAS;
+CREATE SEQUENCE SEQ_SEG_PERFIL;
+CREATE SEQUENCE SEQ_SEG_OPCION;
+
+CREATE SEQUENCE SEQ_SEG_OPCION_PERFIL;
+
+CREATE TABLE seg_opc_perfil (
+    opp_id          NUMBER(*, 0) NOT NULL PRIMARY KEY,
+    opc_id          NUMBER(*, 0) NOT NULL,    
+    per_id          NUMBER(*, 0) NOT NULL,
+    opp_act_inact   NUMBER(*, 0) DEFAULT 0,
+    opp_nuevo       NUMBER(*, 0) DEFAULT 0,
+    opp_eliminar    NUMBER(*, 0) DEFAULT 0,
+    opp_editar      NUMBER(*, 0) DEFAULT 0,
+    opp_imprimir    NUMBER(*, 0) DEFAULT 0
+);
+
+CREATE TABLE  seg_opcion (
+    opc_id       NUMBER(*, 0) NOT NULL PRIMARY KEY,
+    seg_opc_id   NUMBER(*, 0),
+    opc_nombre   VARCHAR2(60 BYTE) NOT NULL,
+    opc_nivel    NUMBER(*, 0) NOT NULL,
+    opc_orden    NUMBER(*, 0) NOT NULL,
+    opc_url      VARCHAR2(128 BYTE),
+    sis_id       NUMBER(*, 0) NOT NULL,
+    opc_icono   VARCHAR2(60 BYTE),
+    opc_clase   VARCHAR2(60 BYTE),
+    opc_imagen   VARCHAR2(60 BYTE)
+);
+
+CREATE TABLE  seg_perfil (
+    per_id       NUMBER(*, 0) NOT NULL PRIMARY KEY,
+    per_nombre   VARCHAR2(60 BYTE) NOT NULL,
+    sis_id       NUMBER(*, 0) NOT NULL
+);
+
+CREATE TABLE  seg_pisaudit (
+    pis_codigo         NUMBER(*, 0) PRIMARY KEY,
+    pis_anterior       VARCHAR2(4000 BYTE),
+    pis_nuevo          VARCHAR2(4000 BYTE),
+    pis_fecha_cambio   DATE,
+    pis_usuario        VARCHAR2(100 BYTE),
+    pis_schema         VARCHAR2(100 BYTE),
+    pis_tabla          VARCHAR2(30 BYTE)
+);
+
+CREATE TABLE  seg_sistemas (
+    sis_id            NUMBER(*, 0) NOT NULL PRIMARY KEY, 
+    sis_nombre        VARCHAR2(60 BYTE) NOT NULL,
+    sis_url_sistema   VARCHAR2(255 BYTE) NOT NULL,
+    sis_estado        NUMBER(*, 0) DEFAULT 1
+);
+
+CREATE TABLE  seg_usu_perfil (
+    usp_id          NUMBER(*, 0) NOT NULL PRIMARY KEY,
+    per_id          NUMBER(*, 0) NOT NULL,
+    usu_id          NUMBER(*, 0) NOT NULL,
+    usp_fecha_ini   DATE,
+    usp_fecha_fin   DATE
+);
+
+CREATE TABLE  seg_usuario (
+    usu_id                    NUMBER(*, 0) NOT NULL PRIMARY KEY,
+    usu_cc                    VARCHAR2(20 BYTE),
+    usu_clave                 VARCHAR2(100 BYTE),
+    usu_nombres               VARCHAR2(60 BYTE),
+    usu_apellidos             VARCHAR2(60 BYTE) NOT NULL,
+    usu_email                 VARCHAR2(100 BYTE),
+    usu_fecharegistro         DATE,    
+    usu_estado                NUMBER(*, 0) DEFAULT 0,
+    usu_mail_sinformul        NUMBER(*, 0) DEFAULT 0,
+    usu_mail_incompletos      NUMBER(*, 0) DEFAULT 0,
+    spriden_id                VARCHAR2(9 BYTE),
+    spriden_pidm              NUMBER(8)
+);
+
+CREATE TABLE  seg_usuario_cambio_clave (
+    usu_id                     NUMBER(*, 0) PRIMARY KEY,
+    usu_fecha_cambio           DATE,
+    usu_valor_anterior         VARCHAR2(100 BYTE),
+    usu_valor_actual           VARCHAR2(100 BYTE),
+    usu_reportado_cambio_ocu   NUMBER(*, 0) DEFAULT 0,
+    ocu_fecha_reporte_ocu      DATE
+);
+
+COMMENT ON TABLE  seg_opc_perfil IS
+    'Guarda los datos de las opciones a accesar cada uno de los perfiles.';
+
+COMMENT ON COLUMN seg_opc_perfil.opp_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente.';
+
+COMMENT ON COLUMN  seg_opc_perfil.opc_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente.';
+
+COMMENT ON COLUMN  seg_opc_perfil.opp_act_inact IS
+    'Campo determinado para habilitar o deshabilitar la visualización de la opción de acuerdo al perfil 1 habilitado 0 deshabilitado';
+
+COMMENT ON COLUMN  seg_opc_perfil.opp_nuevo IS
+    'Campo determinado para habilitar o deshabilitar la acción del botón de acuerdo al perfil 1 habilitado 0 deshabilitado';
+
+COMMENT ON COLUMN  seg_opc_perfil.opp_eliminar IS
+    'Campo determinado para habilitar o deshabilitar la acción del botón de acuerdo al perfil 1 habilitado 0 deshabilitado';
+
+COMMENT ON COLUMN  seg_opc_perfil.opp_editar IS
+    'Campo determinado para habilitar o deshabilitar la acción del botón de acuerdo al perfil 1 habilitado 0 deshabilitado';
+
+COMMENT ON COLUMN  seg_opc_perfil.opp_imprimir IS
+    'Campo determinado para habilitar o deshabilitar la acción del botón de acuerdo al perfil 1 habilitado 0 deshabilitado';
+
+COMMENT ON COLUMN  seg_opc_perfil.per_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente  mediante la utilizacion de un trigger.';
+
+COMMENT ON TABLE  seg_opcion IS
+    'Guarda los datos de las opciones a accesar cada uno de los sistemas.';
+
+COMMENT ON COLUMN  seg_opcion.opc_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente .';
+
+COMMENT ON COLUMN  seg_opcion.seg_opc_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente .';
+
+COMMENT ON COLUMN  seg_opcion.opc_nombre IS
+    'Nombre de la Opción';
+
+COMMENT ON COLUMN  seg_opcion.opc_nivel IS
+    'Nivel de la Opción';
+
+COMMENT ON COLUMN  seg_opcion.opc_orden IS
+    'Orden de la Opción';
+
+COMMENT ON COLUMN  seg_opcion.opc_url IS
+    'URL que abrirá la opción';
+
+COMMENT ON COLUMN  seg_opcion.opc_icono IS
+    'Icono de la Opción';
+
+COMMENT ON COLUMN  seg_opcion.opc_clase IS
+    'Clase de la Opción';
+
+COMMENT ON COLUMN  seg_opcion.opc_imagen IS
+    'Imagen de la Opción';
+
+COMMENT ON COLUMN  seg_opcion.sis_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente .';
+
+COMMENT ON TABLE  seg_perfil IS
+    'Perfil de ingreso, Call-Center, Administradores de Sistema, Senescyt .etc';
+
+COMMENT ON COLUMN  seg_perfil.per_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente .';
+
+COMMENT ON COLUMN  seg_perfil.per_nombre IS
+    'Descripción(Nombre) del perfil del sistema';
+
+COMMENT ON COLUMN  seg_perfil.sis_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente .';
+
+COMMENT ON COLUMN  seg_pisaudit.pis_codigo IS
+    'Codigo Secuencial para la Tabla';
+
+COMMENT ON COLUMN  seg_pisaudit.pis_anterior IS
+    'AUDIT_Anterior';
+
+COMMENT ON COLUMN  seg_pisaudit.pis_nuevo IS
+    'AUDIT_Nuevo';
+
+COMMENT ON COLUMN  seg_pisaudit.pis_fecha_cambio IS
+    'Fecha Cambio';
+
+COMMENT ON COLUMN  seg_pisaudit.pis_usuario IS
+    'Codigo Usuario';
+
+COMMENT ON COLUMN  seg_pisaudit.pis_schema IS
+    'Esquema';
+
+COMMENT ON COLUMN  seg_pisaudit.pis_tabla IS
+    'Tabla';
+
+COMMENT ON TABLE  seg_sistemas IS
+    'Tabla que guarda los datos de los sistemas.';
+
+COMMENT ON COLUMN  seg_sistemas.sis_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente .';
+
+COMMENT ON COLUMN  seg_sistemas.sis_nombre IS
+    'Descripción(Nombre) del sistema';
+
+COMMENT ON COLUMN  seg_sistemas.sis_url_sistema IS
+    'URL del iniciacion del sistema';
+
+COMMENT ON COLUMN  seg_sistemas.sis_estado IS
+    'Campo determinado para habilitar o deshabilitar un sistema, 1 habilitado 0 deshabilitado';
+
+COMMENT ON TABLE  seg_usu_perfil IS
+    'Tabla en la que se asignan los usuarios clasificados por perfil.';
+
+COMMENT ON COLUMN  seg_usu_perfil.usp_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente .';
+
+COMMENT ON COLUMN  seg_usu_perfil.per_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente .';
+
+COMMENT ON COLUMN  seg_usu_perfil.usu_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente .';
+
+COMMENT ON COLUMN  seg_usu_perfil.usp_fecha_ini IS
+    'Fecha inicio vigencia del registro';
+
+COMMENT ON COLUMN  seg_usu_perfil.usp_fecha_fin IS
+    'Fecha finalización de vigencia del registro';
+
+COMMENT ON TABLE  seg_usuario IS
+    'Tabla  que guarda los datos principales de los usuarios, contraseña.';
+
+COMMENT ON COLUMN  seg_usuario.usu_id IS
+    'Codigo Secuencial de la tabla, este dato sera generado automaticamente .';
+
+COMMENT ON COLUMN  seg_usuario.usu_cc IS
+    'Número de cédula, servirá para validar el ingreso al sistema';
+
+COMMENT ON COLUMN  seg_usuario.usu_clave IS
+    'Contraseña de usuario para el ingreso al sistema';
+
+COMMENT ON COLUMN  seg_usuario.usu_nombres IS
+    'Nombres del Usuario';
+
+COMMENT ON COLUMN  seg_usuario.usu_apellidos IS
+    'Apellidos del Usuario';
+
+COMMENT ON COLUMN  seg_usuario.usu_email IS
+    'Correo electrónico';
+
+COMMENT ON COLUMN  seg_usuario.usu_fecharegistro IS
+    'Fecha de registro de la creación de cuenta';
+
+COMMENT ON COLUMN  seg_usuario.usu_estado IS
+    'A=Activo; I= Inactivo';
+
+COMMENT ON COLUMN  seg_usuario.usu_mail_sinformul IS
+    'Identificador para el usuario que solo obtuvo su cuenta y no inició el formulario de registro.';
+
+COMMENT ON COLUMN  seg_usuario.usu_mail_incompletos IS
+    'Identificador para el usuario que solo obtuvo su cuenta y no completó los 5 pasos del formulario de registro.';
+
+COMMENT ON TABLE  seg_usuario_cambio_clave IS
+    'Tabla de control de cambio de clave';
+
+COMMENT ON COLUMN  seg_usuario_cambio_clave.usu_id IS
+    'usuario';
+
+COMMENT ON COLUMN  seg_usuario_cambio_clave.usu_fecha_cambio IS
+    'fecha que se actualiza la clave';
+
+COMMENT ON COLUMN  seg_usuario_cambio_clave.usu_valor_anterior IS
+    'valor de la clave anterior';
+
+COMMENT ON COLUMN  seg_usuario_cambio_clave.usu_valor_actual IS
+    'valor de la clave nueva';
+
+COMMENT ON COLUMN  seg_usuario_cambio_clave.usu_reportado_cambio_ocu IS
+    'si se reporto o no a nivelacion';
+
+COMMENT ON COLUMN  seg_usuario_cambio_clave.ocu_fecha_reporte_ocu IS
+    'fecha que se remiteb a OCU';
+
+insert into seg_sistemas values (SEQ_SEG_SISTEMAS.NEXTVAL,'Gestion de Usuarios','gestu.espe.edu.ec',1);
+insert into seg_sistemas values (SEQ_SEG_SISTEMAS.NEXTVAL,'Movilidad','mov.espe.edu.ec',1);
+
+insert into seg_perfil values (SEQ_SEG_PERFIL.NEXTVAL ,'Administrador',1);
+insert into seg_perfil values (SEQ_SEG_PERFIL.NEXTVAL ,'Super Usuario',1);
+insert into seg_perfil values (SEQ_SEG_PERFIL.NEXTVAL ,'Usuario',1);
+insert into seg_perfil values (SEQ_SEG_PERFIL.NEXTVAL ,'Administrador',2);
+insert into seg_perfil values (SEQ_SEG_PERFIL.NEXTVAL ,'Docente',2);
+
+insert into seg_opcion values (SEQ_SEG_OPCION.NEXTVAL ,0,'SISTEMAS',1,1,'/sistemas',1,'apps','nav-pills-info','');
+insert into seg_opcion values (SEQ_SEG_OPCION.NEXTVAL ,0,'PERFILES',1,2,'/perfiles',1,'format_list_bulleted','','');
+insert into seg_opcion values (SEQ_SEG_OPCION.NEXTVAL ,0,'OPCIONES',1,3,'/opciones',1,'toc','','');
+insert into seg_opcion values (SEQ_SEG_OPCION.NEXTVAL ,0,'USUARIOS',1,4,'/usuario',1,'person_add','','');
+insert into seg_opcion values (SEQ_SEG_OPCION.NEXTVAL ,0,'ASIGNACIÓN OPCIONES',1,5,'/opcion_perfil',1,'playlist_add_check','','');
+insert into seg_opcion values (SEQ_SEG_OPCION.NEXTVAL ,0,'ASIGNACIÓN PERFILES',1,6,'/usuario_perfil',1,'folder_shared','','');
+insert into seg_opcion values (SEQ_SEG_OPCION.NEXTVAL ,0,'CONTROL USUARIOS',1,7,'/control_usuarios',1,'group','','');
+insert into seg_opcion values (SEQ_SEG_OPCION.NEXTVAL ,0,'Convocatoria',1,1,'/convocatoria',2,'speaker_notes','','');
+insert into seg_opcion values (SEQ_SEG_OPCION.NEXTVAL ,0,'Movilidad',1,1,'/movilidad/planes',2,'transfer_within_a_station','','');
+insert into seg_opcion values (SEQ_SEG_OPCION.NEXTVAL ,0,'Mantenimiento',1,1,'/mantenimiento',2,'build','','');
+
+insert into seg_usuario values 
+
+(SEQ_SEG_USUARIO.NEXTVAL,'1716893316','38fee17526ee525f35a3dd2d7b7d7260','Santiago Daniel','Recalde Gomez','sdr.gomez@espe.edu.ec',CURRENT_DATE,'',0,0,'L00123456',4859);
+
+insert into seg_usuario values 
+
+(SEQ_SEG_USUARIO.NEXTVAL,'1859628459','38fee17526ee525f35a3dd2d7b7d7260','Diego Andres','Caiza Andrade','sde.caiza@gmail.com',CURRENT_DATE,'',0,0,'L00135790',5189);
+
+insert into seg_usuario values 
+
+(SEQ_SEG_USUARIO.NEXTVAL,'1722080569','38fee17526ee525f35a3dd2d7b7d7260','Jose Rodolfo','Obando Maldonado','jro.maldonado@espe.edu.ec',CURRENT_DATE,'',0,0,'L00324723',3420);
+
+insert into seg_usuario values 
+
+(SEQ_SEG_USUARIO.NEXTVAL,'1718552365','38fee17526ee525f35a3dd2d7b7d7260','Rojer Elias','Pozo Sanchez','rep.sanchez@espe.edu.ec',CURRENT_DATE,'',0,0,'L00328034',8376);
+
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,1,1,0,1,0,1,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,2,1,0,1,1,1,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,3,1,0,1,1,1,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,4,1,0,1,0,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,5,1,0,1,0,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,6,1,0,1,0,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,7,1,0,1,0,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,1,3,0,0,1,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,2,3,0,0,1,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,3,3,0,0,1,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,4,3,0,0,0,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,7,4,1,0,0,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,8,4,0,0,1,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,9,4,0,0,1,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,8,5,0,0,1,0,0);
+insert into seg_opc_perfil values (SEQ_SEG_OPCION_PERFIL.NEXTVAL ,9,5,0,0,0,0,0);
+
+insert into seg_usu_perfil values (SEQ_SEG_USU_PERFIL.NEXTVAL,1,1,CURRENT_DATE,CURRENT_DATE);
+insert into seg_usu_perfil values (SEQ_SEG_USU_PERFIL.NEXTVAL,3,2,CURRENT_DATE,CURRENT_DATE);
+insert into seg_usu_perfil values (SEQ_SEG_USU_PERFIL.NEXTVAL,4,3,CURRENT_DATE,CURRENT_DATE);
+insert into seg_usu_perfil values (SEQ_SEG_USU_PERFIL.NEXTVAL,5,4,CURRENT_DATE,CURRENT_DATE);

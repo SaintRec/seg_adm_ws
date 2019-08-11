@@ -1,0 +1,16 @@
+create table seg_banner(
+ USU_ID int primary key not null ,
+ USU_CC VARCHAR (20),
+ USU_NOMBRES VARCHAR(60),
+ USU_APELLIDOS VARCHAR (60),
+ USU_EMAIL VARCHAR (100 ),
+ USU_TIPO_DOC VARCHAR (30),
+ USU_COD_SENESCYT VARCHAR (30),
+ USU_EMAIL_INSTITUCIONAL VARCHAR (100),
+ SPRIDEN_ID VARCHAR (9),
+ SPRIDEN_PIDM int
+);
+
+select * from seg_banner
+
+insert into seg_banner values(1,'1234567890','kevin','holguin','kjh@gmail.com','cedula','1233','kjh@yavirac.edu.ec','1',1);
